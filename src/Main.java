@@ -3,5 +3,6 @@ public class Main {
         Liste<String> liste = new DobbeltLenketListe<>();
 
         System.out.println("funker dette?");
+
     }
 }
