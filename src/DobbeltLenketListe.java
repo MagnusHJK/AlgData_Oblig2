@@ -159,3 +159,4 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         throw new UnsupportedOperationException();
     }
 } // class DobbeltLenketListe
+
