@@ -44,18 +44,19 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             return;
         }
 
-
         int i = 0;
-        for(; i < a.length && a[i] != null; i++);
+        for(; i < a.length && a[i] == null; i++);
         if(i < a.length) {
             Node<T> p = hode =  new Node<T>(a[i], null, null);
             antall = 1;
 
-            for(i++; i < a.length && a[i] != null; i++){
-                Node<T> q = p.neste = new Node<T>(a[i], p, null);
-                q.forrige = p;
-                p = q;
-                antall++;
+            for(i++; i < a.length; i++){
+                if(a[i] != null){
+                    Node<T> q = p.neste = new Node<T>(a[i], p, null);
+                    q.forrige = p;
+                    p = q;
+                    antall++;
+                }
             }
             hale = p;
         }
@@ -125,11 +126,39 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public String toString() {
-        throw new UnsupportedOperationException();
+        StringBuilder string = new StringBuilder("[");
+        if(this.antall > 0){
+            Node<T> current = hode;
+
+            string.append(current.verdi);
+            current = current.neste;
+
+            while(current != null){
+                string.append(", ").append(current.verdi);
+                current = current.neste;
+            }
+        }
+        string.append("]");
+
+        return string.toString();
     }
 
     public String omvendtString() {
-        throw new UnsupportedOperationException();
+        StringBuilder string = new StringBuilder("[");
+        if(this.antall > 0){
+            Node<T> current = hale;
+
+            string.append(current.verdi);
+            current = current.forrige;
+
+            while(current != null){
+                string.append(", ").append(current.verdi);
+                current = current.forrige;
+            }
+        }
+        string.append("]");
+
+        return string.toString();
     }
 
     @Override
@@ -178,8 +207,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     public static void main(String[] args){
         String[] s = {"Ole", null, "Per", "Kari", null};
-        Liste<String> liste = new DobbeltLenketListe<>(s);
-        System.out.println(liste.antall() + " " + liste.tom());
+        DobbeltLenketListe<String> liste = new DobbeltLenketListe<>(s);
+        System.out.println(liste.toString());
+        System.out.println(liste.omvendtString());
     }
 
 } // class DobbeltLenketListe
