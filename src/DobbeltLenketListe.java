@@ -1,4 +1,6 @@
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+
+
+import jdk.jshell.spi.ExecutionControl.*;
 
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
@@ -41,11 +43,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public DobbeltLenketListe(T[] a) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     public Liste<T> subliste(int fra, int til){
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -56,70 +58,70 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean tom() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean leggInn(T verdi) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void leggInn(int indeks, T verdi) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean inneholder(T verdi) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public T hent(int indeks) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public int indeksTil(T verdi) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public boolean fjern(T verdi) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public T fjern(int indeks) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public void nullstill() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public String toString() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     public String omvendtString() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     @Override
     public Iterator<T> iterator() {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     public Iterator<T> iterator(int indeks) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 
     private class DobbeltLenketListeIterator implements Iterator<T>
@@ -129,31 +131,31 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         private int iteratorendringer;
 
         private DobbeltLenketListeIterator(){
-            throw new NotImplementedException();
+            throw new UnsupportedOperationException();
         }
 
         private DobbeltLenketListeIterator(int indeks){
-            throw new NotImplementedException();
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public boolean hasNext(){
-            throw new NotImplementedException();
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public T next(){
-            throw new NotImplementedException();
+            throw new UnsupportedOperationException();
         }
 
         @Override
         public void remove(){
-            throw new NotImplementedException();
+            throw new UnsupportedOperationException();
         }
 
     } // class DobbeltLenketListeIterator
 
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
-        throw new NotImplementedException();
+        throw new UnsupportedOperationException();
     }
 } // class DobbeltLenketListe
