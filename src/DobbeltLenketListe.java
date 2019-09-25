@@ -81,7 +81,22 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean leggInn(T verdi) {
-        throw new UnsupportedOperationException("Ikke kodet");
+        Objects.requireNonNull(verdi);
+        Node<T> nyNode = new Node<T>(verdi, null, null);
+
+        if(antall == 0){
+            hode = hale = nyNode;
+            antall = 1;
+
+            return true;
+        }
+
+        nyNode.forrige = hale;
+        hale.neste = nyNode;
+        hale = nyNode;
+        antall++;
+
+        return true;
     }
 
     @Override
@@ -206,10 +221,14 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public static void main(String[] args){
-        String[] s = {"Ole", null, "Per", "Kari", null};
-        DobbeltLenketListe<String> liste = new DobbeltLenketListe<>(s);
-        System.out.println(liste.toString());
-        System.out.println(liste.omvendtString());
+        DobbeltLenketListe<Integer> liste = new DobbeltLenketListe<>();
+
+        System.out.println(liste.toString() + " " + liste.omvendtString());
+
+        for(int i = 1; i<=3; i++){
+            liste.leggInn(i);
+            System.out.println(liste.toString() + " " + liste.omvendtString());
+        }
     }
 
 } // class DobbeltLenketListe
