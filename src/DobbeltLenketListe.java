@@ -1,4 +1,6 @@
 import jdk.jshell.spi.ExecutionControl.*;
+
+import java.sql.SQLOutput;
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
@@ -106,17 +108,48 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean inneholder(T verdi) {
-        throw new UnsupportedOperationException();
+        int indeks = indeksTil(verdi);
+
+        if(indeks == -1) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     @Override
     public T hent(int indeks) {
+
+
         throw new UnsupportedOperationException();
     }
 
     @Override
     public int indeksTil(T verdi) {
-        throw new UnsupportedOperationException();
+        Node<T> q = hode;
+        int antall = 0;
+        boolean funnet = false;
+
+        while(q != null) {
+
+            if(q.verdi.equals(verdi)){
+                funnet = true;
+                break;
+            } else {
+                q = q.neste;
+                antall++;
+            }
+        }
+
+        if(funnet == true) {
+            return antall;
+        } else {
+            return -1;
+        }
+
+
+
+        //throw new UnsupportedOperationException();
     }
 
     @Override
