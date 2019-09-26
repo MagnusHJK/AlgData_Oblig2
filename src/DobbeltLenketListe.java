@@ -70,6 +70,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         return funnetNode;
     }
 
+
+
     public DobbeltLenketListe() {
         //throw new UnsupportedOperationException("Ikke kodet");
     }
@@ -175,7 +177,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         Node<T> nyNode = new Node<>(verdi, null, null);
 
         if(indeks <= antall && indeks >= 0){
-            
 
         }
 
@@ -192,16 +193,10 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T hent(int indeks) {
-        indeksKontroll(indeks,false);
-
-        Node<T> node = new Node<T>(null);
-        T nodeVerdi;
-        node = finnNode(indeks);
-        System.out.println(node.verdi + " asdasdasd");
-        nodeVerdi = node.verdi;
-
-        return nodeVerdi;
+        indeksKontroll(indeks, false);
+        return finnNode(indeks).verdi;
     }
+
     @Override
     public void indeksKontroll(int indeks, boolean leggInn) {
         if (indeks < 0 || (leggInn ? indeks > antall() : indeks >= antall())) {
@@ -239,18 +234,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
+        Objects.requireNonNull(nyverdi);
 
         indeksKontroll(indeks,false);
         Node<T> node = new Node<T>(null);
-        T nodeVerdi;
+        T gammelVerdi;
 
-        node = finnNode(indeks);
-        nodeVerdi = node.verdi;
-        node.verdi = nyverdi;
+        gammelVerdi = finnNode(indeks).verdi;
+        finnNode(indeks).verdi = nyverdi;
+
         endringer++;
 
-        return nodeVerdi;
-
+        return gammelVerdi;
     }
 
     @Override
@@ -357,7 +352,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
 
         System.out.println(liste.toString());
-        System.out.println(liste.finnNode(2).verdi);
+        System.out.println(liste.hent(2));
+        System.out.println("Gammel verdi: " + liste.oppdater(2, 5));
+        System.out.println("Ny verdi: " + liste.hent(2));
 
     }
 
