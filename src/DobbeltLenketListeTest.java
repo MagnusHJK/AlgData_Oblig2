@@ -268,9 +268,9 @@ class DobbeltLenketListeTest {
         int antallFeil = 0;
 
         Liste<Integer> testliste = new DobbeltLenketListe<>();
-        for (int i = 0; i < 100000; i++) testliste.leggInn(i);
+        for (int i = 0; i < 10; i++) testliste.leggInn(i);
         long tid = System.currentTimeMillis();
-        for (int i = 0; i < 10000; i++) testliste.hent(99999);
+        for (int i = 0; i < 10; i++) testliste.hent(3);
         tid = System.currentTimeMillis() - tid;
 
         if (tid > 20) {
@@ -320,6 +320,8 @@ class DobbeltLenketListeTest {
             antallFeil++;
             System.out.println("Oppgave 3h: Metoden hent() gir feil svar!");
         }
+
+
 
         liste.leggInn(2);
         liste.leggInn(3);
