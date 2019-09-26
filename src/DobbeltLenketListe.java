@@ -108,9 +108,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean inneholder(T verdi) {
-        int indeks = indeksTil(verdi);
-
-        if(indeks == -1) {
+        if(indeksTil(verdi) == -1) {
             return false;
         } else {
             return true;
