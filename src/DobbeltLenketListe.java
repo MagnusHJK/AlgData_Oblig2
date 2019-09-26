@@ -1,6 +1,4 @@
 import jdk.jshell.spi.ExecutionControl.*;
-
-import java.sql.SQLOutput;
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
@@ -36,6 +34,57 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int antall;            // antall noder i listen
     private int endringer;         // antall endringer i listen
 
+    private Node<T> finnNode(int indeks) {
+
+        Node<T> currentF = hode;
+        Node<T> currentB = hale;
+        Node<T> node = new Node<T>(null);
+        int teller = 0;
+
+        if(indeks < antall / 2 || antall == 1) {
+           /* while(currentF != null) {
+                if(currentF.verdi.equals(indeks)) {
+                    node = currentF;
+                    break;
+                }
+                currentF = currentF.neste;
+            }
+
+            */
+
+           while(currentF != null) {
+
+               if(teller == indeks) {
+                   node = currentF;
+                   break;
+               }
+               teller++;
+               currentF = currentF.neste;
+           }
+        } else if(indeks > antall / 2){
+            /*
+            while(currentB != null) {
+                if(currentB.verdi.equals(indeks)) {
+                    node = currentB;
+                    break;
+                }
+                currentB = currentB.forrige;
+            }
+
+             */
+            while(currentB != null) {
+
+                if(teller == indeks) {
+                    node = currentB;
+                    break;
+                }
+                teller++;
+                currentB = currentF.forrige;
+            }
+        }
+        return node;
+    }
+
     public DobbeltLenketListe() {
         //throw new UnsupportedOperationException("Ikke kodet");
     }
@@ -64,8 +113,41 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         }
     }
 
+    private static void fraTilKontroll(int antall, int fra, int til) {
+        if(fra < 0) {
+            throw new IndexOutOfBoundsException("Fra er negativ");
+        } else if(fra > til) {
+            throw new IndexOutOfBoundsException("Fra er større enn Til");
+        } else if(til > antall) {
+            throw new IndexOutOfBoundsException("Til er større enn lengden til listen");
+        }
+    }
+
     public Liste<T> subliste(int fra, int til){
-        throw new UnsupportedOperationException();
+        fraTilKontroll(antall,fra,til);
+
+        DobbeltLenketListe<T> liste = new DobbeltLenketListe<>();
+        Node<T> current = new Node<T>(null,null,null);
+
+        current = hode;
+        int teller = 0;
+
+        while(current != null) {
+
+            while(teller >= fra && teller < til) {
+                liste.leggInn(current.verdi);
+                teller++;
+            }
+
+            current = current.neste;
+            teller++;
+
+
+
+        }
+
+
+        return liste;
     }
 
     @Override
@@ -119,9 +201,21 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T hent(int indeks) {
+        indeksKontroll(indeks,false);
 
+        Node<T> node = new Node<T>(null);
+        T nodeVerdi;
+        node = finnNode(indeks);
+        System.out.println(node.verdi + " asdasdasd");
+        nodeVerdi = node.verdi;
 
-        throw new UnsupportedOperationException();
+        return nodeVerdi;
+    }
+    @Override
+    public void indeksKontroll(int indeks, boolean leggInn) {
+        if (indeks < 0 || (leggInn ? indeks > antall() : indeks >= antall())) {
+            throw new IndexOutOfBoundsException(melding(indeks));
+        }
     }
 
     @Override
@@ -154,7 +248,18 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public T oppdater(int indeks, T nyverdi) {
-        throw new UnsupportedOperationException();
+
+        indeksKontroll(indeks,false);
+        Node<T> node = new Node<T>(null);
+        T nodeVerdi;
+
+        node = finnNode(indeks);
+        nodeVerdi = node.verdi;
+        node.verdi = nyverdi;
+        endringer++;
+
+        return nodeVerdi;
+
     }
 
     @Override
