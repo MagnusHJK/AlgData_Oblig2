@@ -89,6 +89,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         if(antall == 0){
             hode = hale = nyNode;
             antall = 1;
+            endringer = 1;
 
             return true;
         }
@@ -97,6 +98,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         hale.neste = nyNode;
         hale = nyNode;
         antall++;
+        endringer++;
 
         return true;
     }
