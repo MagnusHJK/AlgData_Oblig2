@@ -34,55 +34,40 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     private int antall;            // antall noder i listen
     private int endringer;         // antall endringer i listen
 
-    private Node<T> finnNode(int indeks) {
 
-        Node<T> currentF = hode;
-        Node<T> currentB = hale;
-        Node<T> node = new Node<T>(null);
-        int teller = 0;
+    private Node<T> finnNode(int indeks){
+        Node<T> current = hode;
+        Node<T> funnetNode = new Node<>(null,null,null);
+        int listeIndeks = 0;
 
-        if(indeks < antall / 2 || antall == 1) {
-           /* while(currentF != null) {
-                if(currentF.verdi.equals(indeks)) {
-                    node = currentF;
+        //Start fra hode, indeks er på nedre del
+        if(indeks < antall / 2 && indeks >= 0){
+            while(current != null){
+                if(indeks == listeIndeks){
+                    funnetNode = current;
                     break;
+                }else{
+                    listeIndeks++;
+                    current = current.neste;
                 }
-                currentF = currentF.neste;
-            }
-
-            */
-
-           while(currentF != null) {
-
-               if(teller == indeks) {
-                   node = currentF;
-                   break;
-               }
-               teller++;
-               currentF = currentF.neste;
-           }
-        } else if(indeks > antall / 2){
-            /*
-            while(currentB != null) {
-                if(currentB.verdi.equals(indeks)) {
-                    node = currentB;
-                    break;
-                }
-                currentB = currentB.forrige;
-            }
-
-             */
-            while(currentB != null) {
-
-                if(teller == indeks) {
-                    node = currentB;
-                    break;
-                }
-                teller++;
-                currentB = currentF.forrige;
             }
         }
-        return node;
+        //Start fra hale
+        else if(indeks > antall / 2 && indeks <= antall){
+            current = hale;
+            listeIndeks = antall - 1;
+
+            while(current != null){
+                if(indeks == listeIndeks){
+                    funnetNode = current;
+                    break;
+                }else{
+                    listeIndeks--;
+                    current = current.forrige;
+                }
+            }
+        }
+        return funnetNode;
     }
 
     public DobbeltLenketListe() {
@@ -187,7 +172,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void leggInn(int indeks, T verdi) {
-        throw new UnsupportedOperationException();
+        Node<T> nyNode = new Node<>(verdi, null, null);
+
+        if(indeks <= antall && indeks >= 0){
+            
+
+        }
+
     }
 
     @Override
@@ -361,12 +352,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     public static void main(String[] args){
         DobbeltLenketListe<Integer> liste = new DobbeltLenketListe<>();
 
-        System.out.println(liste.toString() + " " + liste.omvendtString());
-
         for(int i = 1; i<=3; i++){
             liste.leggInn(i);
-            System.out.println(liste.toString() + " " + liste.omvendtString());
         }
+
+        System.out.println(liste.toString());
+        System.out.println(liste.finnNode(2).verdi);
+
     }
 
 } // class DobbeltLenketListe
