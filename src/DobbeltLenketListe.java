@@ -1,3 +1,4 @@
+import com.sun.security.jgss.GSSUtil;
 import jdk.jshell.spi.ExecutionControl.*;
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
@@ -41,7 +42,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         int listeIndeks = 0;
 
         //Start fra hode, indeks er på nedre del
-        if(indeks < antall / 2 && indeks >= 0){
+        if(indeks <= antall / 2 && indeks >= 0){
             while(current != null){
                 if(indeks == listeIndeks){
                     funnetNode = current;
@@ -53,7 +54,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             }
         }
         //Start fra hale
-        else if(indeks > antall / 2 && indeks <= antall){
+        else if(indeks >= antall / 2 && indeks <= antall){
             current = hale;
             listeIndeks = antall - 1;
 
@@ -104,13 +105,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         if(fra < 0) {
             throw new IndexOutOfBoundsException("Fra er negativ");
         } else if(fra > til) {
-            throw new IndexOutOfBoundsException("Fra er større enn Til");
+            throw new IllegalArgumentException("Fra er større enn Til");
         } else if(til > antall) {
             throw new IndexOutOfBoundsException("Til er større enn lengden til listen");
         }
     }
 
-    public Liste<T> subliste(int fra, int til){
+    public Liste<T> subliste_2(int fra, int til){
         fraTilKontroll(antall,fra,til);
 
         DobbeltLenketListe<T> liste = new DobbeltLenketListe<>();
@@ -137,6 +138,26 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         return liste;
     }
 
+    Liste<T> subliste(int fra, int til){
+        fraTilKontroll(antall, fra, til);
+
+        DobbeltLenketListe<T> subliste = new DobbeltLenketListe<>();
+        subliste.antall = 0;
+        Node<T> current = new Node<>(null,null,null);
+
+
+        for(int i = fra; i < til; i++){
+            current = finnNode(i);
+
+            subliste.leggInn(current.verdi);
+            //System.out.println(subliste.antall);
+            //subliste.antall++;
+        }
+
+
+        return subliste;
+    }
+
     @Override
     public int antall() {
         return antall;
@@ -159,7 +180,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             hode = hale = nyNode;
             antall = 1;
             endringer = 1;
-
             return true;
         }
 
@@ -221,15 +241,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             }
         }
 
-        if(funnet == true) {
+        if(funnet) {
             return antall;
         } else {
             return -1;
         }
-
-
-
-        //throw new UnsupportedOperationException();
     }
 
     @Override
