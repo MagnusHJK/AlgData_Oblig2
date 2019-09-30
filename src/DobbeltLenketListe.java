@@ -195,18 +195,40 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public void leggInn(int indeks, T verdi) {
         Objects.requireNonNull(verdi);
-        Node<T> p = new Node<>(verdi, null, null);
-        Node <T> q, r = new Node<>(null);
+        indeksKontroll(indeks,false);
 
-        //OBS FUNGERER BARE HVIS DET ER "PLASS", ikke hvis det er første eller siste indeks
-        if(indeks <= antall && indeks >= 0){
-            q = finnNode(indeks - 1);
-            p.neste = q.neste;
-            q.neste = p;
+        Node<T> q = new Node<>(verdi, null, null);
+        Node <T> p, r = new Node<>(null);
+
+        //Hvis den nye noden skal være mellom to noder, altså ikke endepunktene
+        if(indeks < antall && indeks > 0){
+            p = finnNode(indeks - 1);
+            q.neste = p.neste;
+            p.neste = q;
 
             r = finnNode(indeks + 1);
-            p.forrige = r.forrige;
-            r.forrige = p;
+            q.forrige = r.forrige;
+            r.forrige = q;
+
+            antall++;
+            endringer++;
+        }
+        //Hvis den nye noden skal være hode
+        else if(indeks <= 0){
+            p = finnNode(0);
+            q.neste = p;
+            p.forrige = q;
+            hode = q;
+
+            antall++;
+            endringer++;
+        }
+        //Hvis den nye noden skal være hale
+        else if(indeks >= antall){
+            r = hale;
+            r.neste = q;
+            q.forrige = r;
+            hale = q;
 
             antall++;
             endringer++;
