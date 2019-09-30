@@ -195,7 +195,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     @Override
     public void leggInn(int indeks, T verdi) {
         Objects.requireNonNull(verdi);
-        indeksKontroll(indeks,false);
+        if(indeks < 0 || indeks > antall){
+            throw new IndexOutOfBoundsException("Indeksen kan ikke være negativ eller høyere enn antall(" +antall+")");
+        }
 
         Node<T> q = new Node<>(verdi, null, null);
         Node <T> p, r = new Node<>(null);
@@ -203,10 +205,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         //Hvis den nye noden skal være mellom to noder, altså ikke endepunktene
         if(indeks < antall && indeks > 0){
             p = finnNode(indeks - 1);
+            r = finnNode(indeks);
+
             q.neste = p.neste;
             p.neste = q;
 
-            r = finnNode(indeks + 1);
             q.forrige = r.forrige;
             r.forrige = q;
 
@@ -214,7 +217,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             endringer++;
         }
         //Hvis den nye noden skal være hode
-        else if(indeks <= 0){
+        else if(indeks == 0 && antall > 0){
             p = finnNode(0);
             q.neste = p;
             p.forrige = q;
@@ -224,14 +227,20 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             endringer++;
         }
         //Hvis den nye noden skal være hale
-        else if(indeks >= antall){
-            r = hale;
+        else if(indeks == antall && antall > 0){
+            r = finnNode(antall - 1);
             r.neste = q;
             q.forrige = r;
             hale = q;
 
             antall++;
             endringer++;
+        }
+        //Hvis listen er tom
+        else if(antall == 0){
+            hode = hale = q;
+            antall = 1;
+            endringer = 1;
         }
     }
 
@@ -432,15 +441,21 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     public static void main(String[] args){
 
-        for(int i = 1; i<=3; i++){
-            liste.leggInn(i);
-        }
+        Integer[] integers = {1,2,3,4,5,6};
+        DobbeltLenketListe<Integer> liste2 = new DobbeltLenketListe<>(integers);
+        DobbeltLenketListe<Integer> liste = new DobbeltLenketListe<>();
 
-        System.out.println(liste.toString());
-        System.out.println(liste.hent(2));
-        System.out.println("Gammel verdi: " + liste.oppdater(2, 5));
-        System.out.println("Ny verdi: " + liste.hent(2));
+        liste.leggInn(0, 4);  // ny verdi i tom liste
+        liste.leggInn(0, 2);  // ny verdi legges forrest
+        liste.leggInn(2, 6);  // ny verdi legges bakerst
+        liste.leggInn(1, 3);  // ny verdi nest forrest
+        liste.leggInn(3, 5);  // ny verdi nest bakerst
+        liste.leggInn(0, 1);  // ny verdi forrest
+        liste.leggInn(6, 7);  // ny verdi legges bakerst
 
+        //System.out.println(liste2);
+        System.out.println(liste);
+        System.out.println(liste.omvendtString());
     }
 
 } // class DobbeltLenketListe
