@@ -194,12 +194,23 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public void leggInn(int indeks, T verdi) {
-        Node<T> nyNode = new Node<>(verdi, null, null);
+        Objects.requireNonNull(verdi);
+        Node<T> p = new Node<>(verdi, null, null);
+        Node <T> q, r = new Node<>(null);
 
+        //OBS FUNGERER BARE HVIS DET ER "PLASS", ikke hvis det er første eller siste indeks
         if(indeks <= antall && indeks >= 0){
+            q = finnNode(indeks - 1);
+            p.neste = q.neste;
+            q.neste = p;
 
+            r = finnNode(indeks + 1);
+            p.forrige = r.forrige;
+            r.forrige = p;
+
+            antall++;
+            endringer++;
         }
-
     }
 
     @Override
@@ -459,7 +470,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public static void main(String[] args){
-        DobbeltLenketListe<Integer> liste = new DobbeltLenketListe<>();
 
         for(int i = 1; i<=3; i++){
             liste.leggInn(i);
