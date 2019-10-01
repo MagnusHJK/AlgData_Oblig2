@@ -308,68 +308,45 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     @Override
     public boolean fjern(T verdi) {
-
         if(verdi == null) {
             return false;
         }else if(antall == 1) {
+            antall--;
             hode = null;
-            return false;
+            hale = null;
+            return true;
+
         }
-
-        int teller = 0;
-
         Node<T> p = hode;
         Node<T> r = hale;
-        Node<T> node = new Node<T>(null,null,null);
-        //Node<T> r = new Node<T>(null,null,null);
-
 
         while (p != null) {
-
-            if(p.verdi == verdi) {
-
+            if(p.verdi.equals(verdi)) {
                 if(p.forrige == null) {
                     hode = p.neste;
                     hode.forrige = null;
                     endringer++;
                     antall--;
-                    teller++;
-                    break;
+                    return true;
                 } else if(p.neste == null) {
                     hale = p.forrige;
                     hale.neste = null;
                     endringer++;
                     antall--;
-                    teller++;
-                    break;
+                    return true;
                 } else {
-
-                    //Node q = p.forrige;
-
                     Node q = p.forrige;
                     r = p.neste;
-
                     q.neste = r;
                     r.forrige = q;
-
                     antall--;
                     endringer++;
-                    teller++;
-                    break;
+                    return true;
                 }
             }
-
-
             p = p.neste;
         }
-
-        //System.out.println(antall);
-
-        if(teller == 0) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     @Override
@@ -384,6 +361,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         node = finnNode(indeks);
         Node<T> p = hode;
         Node<T> r = hale;
+
+        if(antall == 1) {
+            antall--;
+            hode = null;
+            hale = null;
+            return node.verdi;
+        }
 
         // dersom noden er på hodet
         if(node.forrige == null) {
