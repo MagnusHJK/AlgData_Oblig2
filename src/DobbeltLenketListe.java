@@ -315,7 +315,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             hode = null;
             hale = null;
             return true;
-
         }
         Node<T> p = hode;
         Node<T> r = hale;
@@ -357,11 +356,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         } else if(antall <= 0) {
             throw new IndexOutOfBoundsException("Listen er tom");
         }
+
         Node<T> node = new Node<T>(null,null,null);
         node = finnNode(indeks);
         Node<T> p = hode;
         Node<T> r = hale;
-
         if(antall == 1) {
             antall--;
             hode = null;
@@ -394,7 +393,6 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             endringer++;
             antall--;
         }
-
         return node.verdi;
     }
 
@@ -469,7 +467,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     public Iterator<T> iterator(int indeks) {
         indeksKontroll(indeks, false);
-        return iterator();
+        return new DobbeltLenketListeIterator(indeks);
     }
 
     private class DobbeltLenketListeIterator implements Iterator<T>
@@ -506,11 +504,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public T next(){
-            if(!(iteratorendringer == endringer)){
-                throw new ConcurrentModificationException("Iterator endringer er ikke lik endringer!");
-            }
-            else if(!hasNext()){
+            if(!hasNext()){
                 throw new NoSuchElementException("Er ikke flere elementer igjen");
+            }
+            else if(!(iteratorendringer == endringer)){
+                throw new ConcurrentModificationException("Iterator ednringer er ikke lik endringer");
             }
 
             T tempVerdi = denne.verdi;
@@ -521,13 +519,59 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public void remove(){
-            throw new UnsupportedOperationException();
+            if(antall == 0) {
+                throw new IllegalStateException("Lengen på listen er 0, så kan derfor ikke fjerne noe");
+            } else if(endringer != iteratorendringer){
+                throw new ConcurrentModificationException("endringene er ulike, modifikasjon er umulig");
+            } else if(!fjernOK) {
+                throw new IllegalStateException("Kan ikke bli kalt uten at metoden next er kalt");
+            } else {
+
+                fjernOK = false;
+                if(antall == 1) {
+                    hode = null;
+                    hale = null;
+                    antall--;
+                    endringer++;
+                    iteratorendringer++;
+                    return;
+                } else if(denne == null) {
+                    hale = hale.forrige;
+                    hale.neste = null;
+                    antall--;
+                    endringer++;
+                    iteratorendringer++;
+                    return;
+                } else if(denne.forrige == hode) {
+                    hode = denne;
+                    hode.forrige = null;
+                    antall--;
+                    endringer++;
+                    iteratorendringer++;
+                    return;
+                }
+
+                Node<T> q = denne.forrige;
+                Node<T> p = q.forrige;
+
+
+                p.neste = denne;
+                denne.forrige = p;
+
+               antall--;
+               endringer++;
+               iteratorendringer++;
+
+            }
         }
 
     } // class DobbeltLenketListeIterator
 
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
         throw new UnsupportedOperationException();
+
+
+
     }
 
     public static void main(String[] args){
