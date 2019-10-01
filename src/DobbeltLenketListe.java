@@ -398,10 +398,16 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         return node.verdi;
     }
 
+
+    /**
+     * Oppgave 7
+     * Måte 1 er mest effektiv.
+     */
     @Override
     public void nullstill() {
         Node<T> p = hode;
 
+        //Måte 1
         while (p != null) {
             p = p.neste;
             p = null;
@@ -410,6 +416,13 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             antall = 0;
             endringer++;
         }
+
+        // Måte 2
+        /*while(p != null) {
+            fjern(0);
+            p = p.neste;
+            endringer++;
+        }*/
     }
 
     @Override
