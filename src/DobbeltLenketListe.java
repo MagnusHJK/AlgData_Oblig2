@@ -469,7 +469,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     public Iterator<T> iterator(int indeks) {
         indeksKontroll(indeks, false);
-        return iterator();
+        return new DobbeltLenketListeIterator(indeks);
     }
 
     private class DobbeltLenketListeIterator implements Iterator<T>
@@ -506,11 +506,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         @Override
         public T next(){
-            if(!(iteratorendringer == endringer)){
-                throw new ConcurrentModificationException("Iterator endringer er ikke lik endringer!");
-            }
-            else if(!hasNext()){
+            if(!hasNext()){
                 throw new NoSuchElementException("Er ikke flere elementer igjen");
+            }
+            else if(!(iteratorendringer == endringer)){
+                throw new ConcurrentModificationException("Iterator endringer er ikke lik endringer!");
             }
 
             T tempVerdi = denne.verdi;
