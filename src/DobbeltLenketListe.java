@@ -315,6 +315,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             hode = null;
             hale = null;
             return true;
+
         }
         Node<T> p = hode;
         Node<T> r = hale;
@@ -361,6 +362,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
         node = finnNode(indeks);
         Node<T> p = hode;
         Node<T> r = hale;
+
         if(antall == 1) {
             antall--;
             hode = null;
@@ -393,6 +395,7 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             endringer++;
             antall--;
         }
+
         return node.verdi;
     }
 
@@ -509,6 +512,9 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             }
             else if(!(iteratorendringer == endringer)){
                 throw new ConcurrentModificationException("Iterator ednringer er ikke lik endringer");
+            }
+            else if(!(iteratorendringer == endringer)){
+                throw new ConcurrentModificationException("Iterator endringer er ikke lik endringer!");
             }
 
             T tempVerdi = denne.verdi;
