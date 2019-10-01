@@ -468,7 +468,8 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     }
 
     public Iterator<T> iterator(int indeks) {
-        throw new UnsupportedOperationException();
+        indeksKontroll(indeks, false);
+        return iterator();
     }
 
     private class DobbeltLenketListeIterator implements Iterator<T>
@@ -485,12 +486,12 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
         private DobbeltLenketListeIterator(int indeks){
             int listeIndeks = 0;
-            Node<T> current = denne;
-            Node<T> funnetNode = new Node<T>(null,null,null);
+            Node<T> current = hode;
 
             while(hasNext()){
                 if(listeIndeks == indeks){
-                    funnetNode = current;
+                    denne = current;
+                    break;
                 }else{
                     current = current.neste;
                     listeIndeks++;
@@ -511,11 +512,11 @@ public class DobbeltLenketListe<T> implements Liste<T> {
             else if(!hasNext()){
                 throw new NoSuchElementException("Er ikke flere elementer igjen");
             }
-            fjernOK = true;
-            T verdi = denne.verdi;
-            denne = denne.neste;
 
-            return verdi;
+            T tempVerdi = denne.verdi;
+            denne = denne.neste;
+            fjernOK = true;
+            return tempVerdi;
         }
 
         @Override
@@ -527,6 +528,15 @@ public class DobbeltLenketListe<T> implements Liste<T> {
 
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
         throw new UnsupportedOperationException();
+    }
+
+    public static void main(String[] args){
+        String[] navn = {"Lars", "Anders", "Bodil", "Kari" ,"Per" ,"Berit"};
+        Liste<String> liste = new DobbeltLenketListe<>(navn);
+
+        liste.forEach(s -> System.out.print(s + " "));
+        System.out.println();
+        for(String s : liste) System.out.print(s + " ");
     }
 
 } // class DobbeltLenketListe
