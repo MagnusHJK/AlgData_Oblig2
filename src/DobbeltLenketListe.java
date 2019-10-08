@@ -118,33 +118,6 @@ public class DobbeltLenketListe<T> implements Liste<T>{
         }
     }
 
-    public Liste<T> subliste_2(int fra, int til){
-        fraTilKontroll(antall,fra,til);
-
-        DobbeltLenketListe<T> liste = new DobbeltLenketListe<>();
-        Node<T> current = new Node<T>(null,null,null);
-
-        current = hode;
-        int teller = 0;
-
-        while(current != null) {
-
-            while(teller >= fra && teller < til) {
-                liste.leggInn(current.verdi);
-                teller++;
-            }
-
-            current = current.neste;
-            teller++;
-
-
-
-        }
-
-
-        return liste;
-    }
-
     Liste<T> subliste(int fra, int til){
         fraTilKontroll(antall, fra, til);
 
@@ -157,8 +130,6 @@ public class DobbeltLenketListe<T> implements Liste<T>{
             current = finnNode(i);
 
             subliste.leggInn(current.verdi);
-            //System.out.println(subliste.antall);
-            //subliste.antall++;
         }
 
 
