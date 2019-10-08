@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.Objects;
 import java.util.function.Predicate;
 
-public class DobbeltLenketListe<T> implements Liste<T> {
+public class DobbeltLenketListe<T> implements Liste<T>{
 
     /**
      * Node class
@@ -527,16 +527,33 @@ public class DobbeltLenketListe<T> implements Liste<T> {
     } // class DobbeltLenketListeIterator
 
     public static <T> void sorter(Liste<T> liste, Comparator<? super T> c) {
-        throw new UnsupportedOperationException();
+        if(liste.antall() == 0){
+            return;
+        }
+
+        T verdi1 = liste.hent(0);
+        T verdi2 = liste.hent(0);
+
+        for(int i = 1; i < liste.antall(); i ++){
+            verdi1 = liste.hent(i - 1);
+            verdi2 = liste.hent(i);
+
+            //Hvis verdi1 er mer enn verdi2
+            if(c.compare(verdi1,verdi2) > 0){
+                liste.oppdater(i, verdi1);
+                liste.oppdater(i - 1,verdi2);
+                i = 0;
+            }
+        }
     }
 
     public static void main(String[] args){
-        String[] navn = {"Lars", "Anders", "Bodil", "Kari" ,"Per" ,"Berit"};
-        Liste<String> liste = new DobbeltLenketListe<>(navn);
+        //Integer[] tall = {};
+        //DobbeltLenketListe<Integer> liste = new DobbeltLenketListe<>(tall);;
+        DobbeltLenketListe<String> liste = new DobbeltLenketListe<>(new String[0]);
 
-        liste.forEach(s -> System.out.print(s + " "));
-        System.out.println();
-        for(String s : liste) System.out.print(s + " ");
+        DobbeltLenketListe.sorter(liste, Comparator.naturalOrder());
+        System.out.println(liste);
     }
 
 } // class DobbeltLenketListe
