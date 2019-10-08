@@ -5,10 +5,6 @@ Martin Johansen - s333727
 Sebastian Aaron Schwartz Johnsen - s333754
  */
 
-
-
-
-
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
