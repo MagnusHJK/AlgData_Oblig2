@@ -1,12 +1,8 @@
-import com.sun.security.jgss.GSSUtil;
-import jdk.jshell.spi.ExecutionControl.*;
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;
-import java.util.StringJoiner;
 import java.util.Iterator;
 import java.util.Objects;
-import java.util.function.Predicate;
 
 public class DobbeltLenketListe<T> implements Liste<T>{
 
@@ -592,15 +588,5 @@ public class DobbeltLenketListe<T> implements Liste<T>{
             }
         }
     }
-
-    public static void main(String[] args){
-        String[] navn = {"Lars", "Anders", "Bodil", "Kari" ,"Per" ,"Berit"};
-        Liste<String> liste = new DobbeltLenketListe<>(navn);
-
-        liste.forEach(s -> System.out.print(s + " "));
-        System.out.println();
-        for(String s : liste) System.out.print(s + " ");
-    }
-
 } // class DobbeltLenketListe
 
