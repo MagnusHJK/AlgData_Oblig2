@@ -1,3 +1,14 @@
+/*
+Magnus Hjelmen Kristiansen - s333740
+Jakob Olsrud Johansen - s333753
+Martin Johansen - s333727
+Sebastian Aaron Schwartz Johnsen - s333754
+ */
+
+
+
+
+
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.NoSuchElementException;

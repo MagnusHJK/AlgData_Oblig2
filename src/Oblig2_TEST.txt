@@ -1,0 +1,5 @@
+###OUTPUT:###
+
+
+Oppgave 6zg: Ineffektiv kode! Har du kodet den ene fjern-metoden
+ved hjelp av den andre? Eller så er en av fjern-metodene dine litt treg.
